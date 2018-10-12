@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords"  content="qibenyu,齐奔宇">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Android Summary - Qiby 的博客 | Qibenyu Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/qibenyu/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/qibenyu/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/qibenyu/2017/11/27/summary/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/qibenyu/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/qibenyu/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/qibenyu/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/qibenyu/">Qiby's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/qibenyu/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/qibenyu/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/qibenyu/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/qibenyu/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/qibenyu/img/post-bg-digital-native.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/qibenyu/img/post-bg-digital-native.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/qibenyu/tags/#Android" title="Android">Android</a>
+                        
+                    </div>
+                    <h1>Android Summary</h1>
+                    
+                    
+                    <h2 class="subheading"> For Interview </h2>
+                    
+                    <span class="meta">Posted by Qiby on November 27, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<h1 id="summary">summary</h1>
+<h3 id="android-平台架构">Android 平台架构</h3>
+<ol>
+  <li>System App</li>
+  <li>JavaApiFramework</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>Native C/C++</td>
+          <td>Android Runtime</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>Hardware abstraction layer</li>
+  <li>Linux Kernal</li>
+</ol>
+
+<h3 id="app-启动优化google建议">APP 启动优化Google建议</h3>
+<ul>
+  <li>利用提前展示出来的Window，快速展示出来一个界面，给用户快速反馈的体验；</li>
+  <li>避免在启动时做密集沉重的初始化（Heavy app initialization）；</li>
+  <li>定位问题：避免I/O操作、反序列化、网络操作、布局嵌套等。</li>
+</ul>
+
+<h3 id="app启动流程">APP启动流程</h3>
+<ol>
+  <li>Launcher startActivitySafely -&gt;Binder-&gt; ActivityManagerService</li>
+  <li>AMS在system_server进程</li>
+  <li>system_server通过Socket方式请求zygote进程 fork一个子进程,即APP进程</li>
+</ol>
+
+<h3 id="activity注意">Activity注意</h3>
+<h4 id="1-正常生命周期">1. 正常生命周期</h4>
+<p>onStart 和 onResume 都已经显示,但是onStart是显示在后台,还不可交互</p>
+
+<p>onStart和onStop以是否可见回调
+onResume和onPause是已是否在前台回调</p>
+
+<p>onStop可以做一些回收工作和资源释放</p>
+
+<hr />
+<p>注: 当用户打开新的activity或者回到桌面,回调为 onPause-&gt;onStop,有一种特殊情况,如果新Activity为透明主题,那么当前Activity会回调onStop</p>
+
+<h4 id="2异常生命周期">2.异常生命周期</h4>
+<p>onSaveInstanceState  onRestoreInstanceState
+View中也有onSaveInstanceState和onRestoreInstanceState
+委托机制: 由activity委托Window保存数据,Window委托它上面的ViewGroup,一般是DocorView保存,最后底层容器意义通知子元素来保存数据</p>
+
+<h3 id="android事件分发">Android事件分发</h3>
+<h4 id="传递关系">传递关系</h4>
+<p><img src="http://upload-images.jianshu.io/upload_images/944365-aa8416fc6d2e5ecd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="enter image description here" /></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public boolean dispatchTouchEvent(MotionEvent ev) {
+	//代表是否消耗事件
+	boolean consume = false;
+	if(onInterceptToucheEvent(ev)) {
+		//如果onInterceptTouchEvent()返回true则代表当前View拦截了点击事件
+		//则该点击事件则会交给当前View进行处理
+		//即调用onTouchEvent (）方法去处理点击事件
+		consume = onTouchEvent(ev);
+	} else {
+		//如果onInterceptTouchEvent()返回false则代表当前View不拦截点击事件
+		//则该点击事件则会继续传递给它的子元素
+		//子元素的dispatchTouchEvent（）就会被调用，重复上述过程
+		//直到点击事件被最终处理为止
+		consume = child.dispatchTouchEvent(ev);
+	}
+}
+
+</code></pre></div></div>
+
+<h3 id="图片库横向比较">图片库横向比较</h3>
+<p>todo
+—</p>
+<h3 id="软引用弱引用有什么区别">软引用,弱引用有什么区别</h3>
+<p>软引用:SoftReference 当内存足够时不会回收,如果内存控件不足则回收
+<strong>弱引用:WeakReference 相比软引用有更短的生命周期</strong>,当垃圾回收线程扫描他管理的内存区域时,一单发现弱引用就会回收,不过，由于垃圾回收器是一个优先级很低的线程，因此不一定会很快发现那些只具有弱引用的对象。
+<strong>强引用  &gt;  软引用  &gt;  弱引用  &gt;  虚引用</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>引用类型</th>
+      <th>被垃圾回收时间</th>
+      <th>用途</th>
+      <th>生存时间</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>强引用</td>
+      <td>从来不会</td>
+      <td>对象的一般状态</td>
+      <td>JVM停止运行时终止</td>
+    </tr>
+    <tr>
+      <td>软引用</td>
+      <td>在内存不足时</td>
+      <td>对象缓存</td>
+      <td>内存不足时终止</td>
+    </tr>
+    <tr>
+      <td>弱引用</td>
+      <td>在垃圾回收时</td>
+      <td>对象缓存</td>
+      <td>gc运行后终止</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="looper实现原理为什么looperprepare就在当前线程关联了looper对象">Looper实现原理，为什么Looper.prepare()就在当前线程关联了Looper对象</h3>
+
+<h3 id="内存问题">内存问题</h3>
+<ol>
+  <li>使用更轻量级的数据结构
+    <ul>
+      <li>json</li>
+      <li>ArrayMap 
+ <img src="http://hukai.me/images/android_perf_3_arraymap_two_array.png" alt="ArrayMap示例图" /></li>
+      <li>使用SparseBoolMap，SparseIntMap，SparseLongMap，LongSparseMap避免自动装箱</li>
+      <li>避免使用ENUM:Enums often require more than twice as much memory as static constants 枚举类型是常量的两倍内存 (官网)</li>
+    </ul>
+  </li>
+  <li>内存泄露
+    <ul>
+      <li>避免使用异步回调</li>
+      <li>Handler内存泄露</li>
+      <li>单例模式内存泄露</li>
+      <li>资源未关闭</li>
+      <li>监听注册未取消</li>
+    </ul>
+  </li>
+  <li>工具
+    <ul>
+      <li>LeakCanary
+        <h3 id="红黑树">红黑树</h3>
+        <p>本质是二叉查找树</p>
+      </li>
+      <li>若任意节点的左子树不为空,则左子树所有节点的值均小于它的根节点的值</li>
+      <li>若任意节点的右子树不为空,则右子树所有节点的值均大于它的根节点的值</li>
+      <li>任意节点的左右子树也分别为二叉查找树</li>
+      <li>没有重复节点
+时间复杂度为O(log n)</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="fragment">Fragment</h3>
+<h4 id="fragmentpageradapterfragmentpagerstateadapter">FragmentPagerAdapter,FragmentPagerStateAdapter</h4>
+
+<h3 id="解决滑动冲突">解决滑动冲突</h3>
+<ol>
+  <li>外部拦截
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public boolean onInterceptTouchEvent(MotionEvent event){
+ boolean intercepted = false;
+ switch(event.getAction){
+     case MotionEvent.ACTION_DOWN:{
+         intercepted = false;
+         break;
+     }
+     case MotionEvent.ACTION_MOVE:{
+         if(父容器需要此点击事件){
+             intercepted = true;
+         } else {
+             intercepted = false;
+         }
+         break;
+     }
+     case MotionEvent.ACTION_DOWN:{
+         intercepted = false;
+         break;
+     }
+ }
+ return intercepted;
+}
+</code></pre></div>    </div>
+  </li>
+  <li>内部拦截法</li>
+</ol>
+
+<h3 id="webview">Webview</h3>
+<ol>
+  <li>webview内存泄露问题特别注意：
+Activity退出时在onDestory中释放webview
+mContainer.removeView(mWebView);
+mWebView.setWebChromeClient(null);
+mWebView.setDownloadListener(null);
+mWebView.setWebViewClient(null);
+mWebView.destroy();
+顺序不要搞错，先remove Webview，后做webview的释放，否则会出现内存泄露</li>
+  <li>webview硬件加速,导致页面加载白块,抖动
+设置去掉硬件加速</li>
+</ol>
+
+<h3 id="插件化">插件化</h3>
+<h4 id="代码加载">代码加载</h4>
+<p>使用Java ClassLoader机制,单对于Android来讲,并不是类加载进来就可以使用,很多组件有生命周期.就有了组件生命周期管理</p>
+
+<h4 id="资源加载">资源加载</h4>
+<p>使用AssetManager 中隐藏方法addAssetPath</p>
+
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/qibenyu/2017/10/23/install/" data-toggle="tooltip" data-placement="top" title="静默安装APK">
+                        Previous<br>
+                        <span>静默安装APK</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="2">
+                                    Android
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/别动我奶酪ben">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/qby">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Qiby's Blog 2017
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/qibenyu/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/qibenyu/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/qibenyu/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/qibenyu/js/snackbar.js "></script>
+<script src="/qibenyu/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/qibenyu/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+
+        // interop with multilangual 
+        if () {
+            _containerSelector = 'div.post-container.active'
+        } else {
+            _containerSelector = 'div.post-container'
+        }
+
+        // init
+        var P = $(_containerSelector),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        // clean
+        $(selector).html('')
+
+        // appending
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/qibenyu/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

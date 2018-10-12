@@ -1,0 +1,166 @@
+---
+layout:     post
+title:      "静默安装APK"
+subtitle:   ""
+date:       2017-10-23 
+author:     "Qibenyu"
+header-img: "img/post-bg-digital-native.jpg"
+catalog: true
+tags:
+    - Android
+---
+
+# 静默安装
+```
+
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
+import android.content.pm.IPackageInstallObserver;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
+
+import com.letv.android.SuperManagerApplication;
+import com.letv.android.supermanager.util.LogUtil;
+import com.letv.android.supermanager.util.TimerUtil;
+import com.letv.android.supermanager.view.InstallProgress;
+
+import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
+public class APkInstaller implements Runnable {
+    private static final String TAG = "APkInstaller";
+
+    public static final int INSTALL_START = 1;
+    public static final int INSTALLING = 2;
+    public static final int INSTALL_SUCCESS = 3;
+    public static final int INSTALL_FAILD = 4;
+    private int mStatus = INSTALL_START;
+
+    private Handler mHandler;
+    String mApkPath;
+    String mApkUrl;
+    Context mContext;
+
+    public APkInstaller(Context context, Handler handler, String apkPath) {
+        mContext = context;
+        mHandler = handler;
+        mApkPath = apkPath;
+    }
+
+    public APkInstaller(Context context, Handler handler, String apkPath, String apkUrl) {
+        mContext = context;
+        mHandler = handler;
+        mApkPath = apkPath;
+        mApkUrl = apkUrl;
+    }
+
+    @Override
+    public void run() {
+        silentInstall();
+    }
+
+
+    /**
+     * 静默安装
+     */
+    private void silentInstall() {
+        try {
+            int flag = 0;
+            Class<PackageManager> pmClass = PackageManager.class;
+            Field INSTALL_REPLACE_EXISTING_Field = null;
+            INSTALL_REPLACE_EXISTING_Field = pmClass.getDeclaredField("INSTALL_REPLACE_EXISTING");
+            INSTALL_REPLACE_EXISTING_Field.setAccessible(true);
+            int INSTALL_REPLACE_EXISTING = (int) INSTALL_REPLACE_EXISTING_Field.get(null);
+            Uri uri = Uri.fromFile(new File(mApkPath));
+            flag |= INSTALL_REPLACE_EXISTING;
+            Method installPackage = pmClass.getDeclaredMethod("installPackage", Uri.class, IPackageInstallObserver.class, int.class, String.class);
+            PackageInstallObserver observer = new PackageInstallObserver();
+            observer.packageInstallstart();
+            installPackage.invoke(SuperManagerApplication.application.getPackageManager(), uri, observer, flag, "com.letv.android.supermanager");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 安装回调
+     */
+    private class PackageInstallObserver extends IPackageInstallObserver.Stub {
+        InstallProgress progressView = null;
+
+        public PackageInstallObserver() {
+            progressView = new InstallProgress(mContext);
+            progressView.setOnProgressChangeListener(new InstallProgress.OnProgressChangeListener() {
+                @Override
+                public void onProgressChange(int progress) {
+                    packageInstalling(progress);
+                }
+            });
+        }
+
+
+        public void packageInstallstart() {
+            mStatus = INSTALL_START;
+            progressView.startAnim(INSTALL_START);
+            Message msg = Message.obtain();
+            msg.what = INSTALL_START;
+            msg.obj = mApkUrl;
+            mHandler.sendMessage(msg);
+        }
+
+
+        public void packageInstalling(int progress) {
+            if (mStatus == INSTALL_START) {
+                mStatus = INSTALLING;
+            }
+            if (mStatus == INSTALLING) {
+                Message msg = Message.obtain();
+                msg.what = INSTALLING;
+                msg.arg1 = progress;
+                msg.obj = mApkUrl;
+                mHandler.sendMessage(msg);
+            }
+        }
+
+        public void packageInstalled(String packageName, final int returnCode) {
+            LogUtil.d(TAG, "packageInstalled " + returnCode);
+            if (returnCode == 1) {
+                progressView.setListenerFinishAdapter(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        //通知安装完成
+                        TimerUtil.delayedRun(400, new Runnable() {
+                            @Override
+                            public void run() {
+                                Message msg = Message.obtain();
+                                msg.what = INSTALL_SUCCESS;
+                                msg.obj = mApkUrl;
+                                mHandler.sendMessage(msg);
+                                LogUtil.d(TAG, "INSTALL_SUCCESS " + returnCode);
+                            }
+                        });
+                    }
+                });
+                progressView.startAnim(INSTALL_SUCCESS);
+            } else {
+                //通知CP此应用安装失败
+                mStatus = INSTALL_FAILD;
+                progressView.startAnim(INSTALL_FAILD);
+                Message msg = Message.obtain();
+                msg.what = INSTALL_FAILD;
+                msg.obj = mApkUrl;
+                mHandler.sendMessage(msg);
+                LogUtil.d(TAG, "INSTALL_FAILD " + returnCode);
+            }
+
+        }
+    }
+}
+
+```

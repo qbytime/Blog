@@ -1,0 +1,165 @@
+---
+layout:     post
+title:      "Android Summary"
+subtitle:   " For Interview "
+date:       2017-11-27
+author:     "Qiby"
+header-img: "img/post-bg-digital-native.jpg"
+catalog: true
+tags:
+    - Android
+---
+
+# summary
+### Android 平台架构
+1. System App
+2. JavaApiFramework
+3. Native C/C++ | Android Runtime
+4. Hardware abstraction layer
+5. Linux Kernal
+
+### APP 启动优化Google建议
+- 利用提前展示出来的Window，快速展示出来一个界面，给用户快速反馈的体验；
+- 避免在启动时做密集沉重的初始化（Heavy app initialization）；
+- 定位问题：避免I/O操作、反序列化、网络操作、布局嵌套等。
+
+### APP启动流程
+1. Launcher startActivitySafely ->Binder-> ActivityManagerService
+2. AMS在system_server进程
+3. system_server通过Socket方式请求zygote进程 fork一个子进程,即APP进程
+
+
+### Activity注意
+#### 1. 正常生命周期
+onStart 和 onResume 都已经显示,但是onStart是显示在后台,还不可交互
+
+onStart和onStop以是否可见回调
+onResume和onPause是已是否在前台回调
+
+onStop可以做一些回收工作和资源释放
+
+--- 
+注: 当用户打开新的activity或者回到桌面,回调为 onPause->onStop,有一种特殊情况,如果新Activity为透明主题,那么当前Activity会回调onStop
+
+#### 2.异常生命周期
+onSaveInstanceState  onRestoreInstanceState
+View中也有onSaveInstanceState和onRestoreInstanceState
+委托机制: 由activity委托Window保存数据,Window委托它上面的ViewGroup,一般是DocorView保存,最后底层容器意义通知子元素来保存数据
+
+### Android事件分发
+#### 传递关系
+![enter image description here](http://upload-images.jianshu.io/upload_images/944365-aa8416fc6d2e5ecd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+```
+public boolean dispatchTouchEvent(MotionEvent ev) {
+	//代表是否消耗事件
+	boolean consume = false;
+	if(onInterceptToucheEvent(ev)) {
+		//如果onInterceptTouchEvent()返回true则代表当前View拦截了点击事件
+		//则该点击事件则会交给当前View进行处理
+		//即调用onTouchEvent (）方法去处理点击事件
+		consume = onTouchEvent(ev);
+	} else {
+		//如果onInterceptTouchEvent()返回false则代表当前View不拦截点击事件
+		//则该点击事件则会继续传递给它的子元素
+		//子元素的dispatchTouchEvent（）就会被调用，重复上述过程
+		//直到点击事件被最终处理为止
+		consume = child.dispatchTouchEvent(ev);
+	}
+}
+
+```
+
+### 图片库横向比较
+ todo
+---
+### 软引用,弱引用有什么区别
+软引用:SoftReference 当内存足够时不会回收,如果内存控件不足则回收
+**弱引用:WeakReference 相比软引用有更短的生命周期**,当垃圾回收线程扫描他管理的内存区域时,一单发现弱引用就会回收,不过，由于垃圾回收器是一个优先级很低的线程，因此不一定会很快发现那些只具有弱引用的对象。
+**强引用  >  软引用  >  弱引用  >  虚引用**
+
+引用类型 | 被垃圾回收时间 | 用途 | 生存时间
+---|---|---|---
+强引用 | 从来不会| 对象的一般状态|JVM停止运行时终止
+软引用 | 在内存不足时|对象缓存|内存不足时终止
+弱引用|在垃圾回收时|对象缓存|gc运行后终止
+
+### Looper实现原理，为什么Looper.prepare()就在当前线程关联了Looper对象
+
+
+
+### 内存问题
+1. 使用更轻量级的数据结构
+	- json
+	- ArrayMap 
+	![ArrayMap示例图](http://hukai.me/images/android_perf_3_arraymap_two_array.png)
+	- 使用SparseBoolMap，SparseIntMap，SparseLongMap，LongSparseMap避免自动装箱
+	- 避免使用ENUM:Enums often require more than twice as much memory as static constants 枚举类型是常量的两倍内存 (官网)
+
+2. 内存泄露
+	- 避免使用异步回调
+	- Handler内存泄露
+	- 单例模式内存泄露
+	- 资源未关闭
+	- 监听注册未取消
+	
+3. 工具
+	- LeakCanary
+### 红黑树
+本质是二叉查找树
+	- 若任意节点的左子树不为空,则左子树所有节点的值均小于它的根节点的值
+	- 若任意节点的右子树不为空,则右子树所有节点的值均大于它的根节点的值
+	- 任意节点的左右子树也分别为二叉查找树
+	- 没有重复节点
+时间复杂度为O(log n)
+
+
+### Fragment
+#### FragmentPagerAdapter,FragmentPagerStateAdapter
+
+### 解决滑动冲突
+1. 外部拦截
+```
+public boolean onInterceptTouchEvent(MotionEvent event){
+	boolean intercepted = false;
+	switch(event.getAction){
+		case MotionEvent.ACTION_DOWN:{
+			intercepted = false;
+			break;
+		}
+		case MotionEvent.ACTION_MOVE:{
+			if(父容器需要此点击事件){
+				intercepted = true;
+			} else {
+				intercepted = false;
+			}
+			break;
+		}
+		case MotionEvent.ACTION_DOWN:{
+			intercepted = false;
+			break;
+		}
+	}
+	return intercepted;
+}
+```
+2. 内部拦截法
+
+### Webview
+1. webview内存泄露问题特别注意：
+Activity退出时在onDestory中释放webview
+mContainer.removeView(mWebView);
+mWebView.setWebChromeClient(null);
+mWebView.setDownloadListener(null);
+mWebView.setWebViewClient(null);
+mWebView.destroy();
+顺序不要搞错，先remove Webview，后做webview的释放，否则会出现内存泄露
+2. webview硬件加速,导致页面加载白块,抖动
+设置去掉硬件加速
+
+### 插件化
+#### 代码加载
+使用Java ClassLoader机制,单对于Android来讲,并不是类加载进来就可以使用,很多组件有生命周期.就有了组件生命周期管理
+
+#### 资源加载
+使用AssetManager 中隐藏方法addAssetPath
+
